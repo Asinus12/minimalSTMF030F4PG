@@ -48,9 +48,9 @@ LFLAGS  = -nostdlib -nostartfiles
 $(PROJ_NAME): $(PROJ_NAME).elf
 
 $(PROJ_NAME).elf: $(SRCS)
-	$(AS) $(AFLAGS) startup.s -o $(BUILD_DIR)/startup.o
+	$(AS) $(AFLAGS) startup3.s -o $(BUILD_DIR)/startup.o
 	$(CC) $(CFLAGS) -c main.c -o $(BUILD_DIR)/main.o
-	$(LD) $(LFLAGS) -T flash.ld $(BUILD_DIR)/startup.o $(BUILD_DIR)/main.o -o $(BUILD_DIR)/$(PROJ_NAME).elf
+	$(LD) $(LFLAGS) -T flash3.ld $(BUILD_DIR)/startup.o $(BUILD_DIR)/main.o -o $(BUILD_DIR)/$(PROJ_NAME).elf
 	$(OBJDUMP) -D $(BUILD_DIR)/$(PROJ_NAME).elf > $(BUILD_DIR)/$(PROJ_NAME).list
 	$(OBJCOPY) -O binary $(BUILD_DIR)/$(PROJ_NAME).elf $(BUILD_DIR)/$(PROJ_NAME).bin
 

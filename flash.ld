@@ -4,7 +4,7 @@
 
 STACK_SIZE = 0x80; /* 128   */
 PC13_BSRR = 0x40011010;
-_endstack = 0x20005000;
+_endstack = 0x20001FFF;
 
 MEMORY
 {
