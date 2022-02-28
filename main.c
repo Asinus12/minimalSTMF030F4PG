@@ -30,21 +30,22 @@
 
 /*********** GPIOA struct defined on this address  *******/
 #define GPIOA_BASE            (AHB2PERIPH_BASE + 0x00000000)
-// MODER offset from GPIOX_BASE
+// offsets from GPIOX_BASE
 #define GPIO_MODER      0x00
-// OTYPER offset from GPIOX_BASE
 #define GPIO_OTYPER     0x04
-// OSPPEDR offet from GPIOX_BASE
 #define GPIO_OSPEEDR    0x08
-// PUPDR offset from GPIOX_BASE
 #define GPIO_PUPDR      0x0C
-// BSRR offset from GPIOX_BASE
 #define GPIO_BSRR       0x18
 
 
 void PUT32 ( unsigned int, unsigned int );
 unsigned int GET32 ( unsigned int );
 void DUMMY ( unsigned int );
+void LEDON(void);
+void LEDOFF(void);
+void LOOP(void);
+
+
 void blinker ( unsigned int n )
 {
     unsigned int i,j = 0;
@@ -85,15 +86,15 @@ int main ( void )
     PUT32((RCC_BASE |RCC_CFGR),ra);                             // put back modified value 
     while(1) if((GET32(RCC_BASE |RCC_CFGR)&0xF)==0x5) break;    // wait for ready flag
 
-    // enable system clock for port A (GPIOA)
+  
     ra = GET32(RCC_BASE |RCC_AHBENR);                        // get register
-    ra |= RCC_AHBENR_GPIOAEN;                                // set bit definition 
+    ra |= RCC_AHBENR_GPIOAEN;                                // enable system clock for port A (GPIOA)
     PUT32((RCC_BASE | RCC_AHBENR),ra);                       // put back modified value 
-
 
     ra = GET32(GPIOA_BASE | GPIO_MODER);                     // get register 
     ra |= 1 << 8;                                            // PA4 mode is output 
     PUT32(GPIOA_BASE |GPIO_MODER,ra);                         // put back modified value 
+
 
     ra = GET32(GPIOA_BASE | GPIO_OTYPER);                      // get register 
     ra |= ra;                                                // already configured           
@@ -108,10 +109,19 @@ int main ( void )
     PUT32(GPIOA_BASE+GPIO_PUPDR,ra);                         // put back modified value 
 
 
- 
 
-    // blink with frequency determined by HSE 
-    blinker(5);
+    int j = 3; /* (int) ITERATIONS; */
+    while(j--){
+        LEDON();
+        LOOP();
+        LEDOFF();
+        LOOP();
+    }
+
+    // blink with HSE frequency 
+    blinker(4);
+
+    
 
 
 

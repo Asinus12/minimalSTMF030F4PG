@@ -46,8 +46,8 @@ DUMMY:
 .thumb_func
 .globl LEDON
 LEDON:
-    ldr r1, =PC13_BSRR 
-    ldr r3, =0x2000
+    ldr r1, =PA4_BSRR 
+    ldr r3, =0x10
     str r3, [r1]
     bx lr
 
@@ -55,17 +55,17 @@ LEDON:
 .thumb_func
 .globl LEDOFF
 LEDOFF: 
-    ldr r1, =PC13_BSRR 
-    ldr r3, =0x20000000
+    ldr r1, =PA4_BSRR 
+    ldr r3, =0x100000
     str r3, [r1]
     bx lr
 
 .thumb_func
 .globl LOOP
 LOOP:
-   ldr r7,=0x200000
+   ldr r1,=0x200000
 label:
-   sub r7,#1
+   sub r1,#1
    bne label
    bx lr      
 
