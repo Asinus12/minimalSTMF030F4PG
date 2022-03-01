@@ -3,8 +3,9 @@
 
 
 STACK_SIZE = 0x80; /* 128   */
-PC13_BSRR = 0x40011010;
 PA4_BSRR = 0x48000018;
+_sfaddr = 0x08000300;
+_efaddr = 0x08000400;
 _endstack = 0x20001000;
 
 MEMORY
@@ -26,14 +27,12 @@ SECTIONS
         _evector = . ;
     } >rom
 
-
     .text :                 /* code, data */
     { 
         *(.text*)           /* wildcard * means we want all .text section in all files */
     } > rom
 
 
-   
     .bss (NOLOAD) :         /* uninitialized data */   
     {
         _sbss = . ;         
@@ -43,7 +42,6 @@ SECTIONS
     } > ram
 
 
-    
     .data :                 /* initializeed static varibles*/            
     {
         _sdata = . ;

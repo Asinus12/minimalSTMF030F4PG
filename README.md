@@ -11,8 +11,14 @@ sudo apt install arm-none-eabi
 git clone https://github.com/stlink-org/stlink.git
 sudo apt install xxd 
 ```
-
-
+**Referemces** 
+- ARM and Thumb instrction set 
+    https://developer.arm.com/documentation/dui0489/i/arm-and-thumb-instructions/ldr--register-offset-
+- Assembler 
+    https://docs.huihoo.com/redhat/rhel-4-docs/rhel-as-en-4/index.html  
+- Video of building from zero 
+    https://www.youtube.com/watch?v=7stymN3eYw0
+    
 **Building**  
 ```
 mkdir build 
@@ -23,4 +29,10 @@ make clean && make
 **Flashing**   
 ```
 make flash
+```
+
+**Debuging** 
+- Show section sizes of executable 
+```
+    arm-none-eabi-size build/minimalF030.elf
 ```

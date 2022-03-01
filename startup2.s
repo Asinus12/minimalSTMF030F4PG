@@ -38,6 +38,8 @@
   ******************************************************************************
   */
 
+  /* Original name of the file: startup_stm32f030f4px.s */
+
   .syntax unified
   .cpu cortex-m0
   .fpu softvfp
@@ -58,46 +60,6 @@ defined in linker script */
 /* end address for the .bss section. defined in linker script */
 .word _ebss
 
-
-
-.thumb_func               
-.globl PUT32                
-PUT32:
-    str r1,[r0]
-    bx lr
-
-
-.thumb_func
-.globl GET32
-GET32:
-    ldr r0,[r0]
-    bx lr
-
-
-.thumb_func
-.globl DUMMY
-DUMMY:
-    bx lr
-
-
-.thumb_func
-.globl LEDON
-LEDON:
-    ldr r1, =PC13_BSRR 
-    ldr r3, =0x2000
-    str r3, [r1]
-    bx lr
-
-
-.thumb_func
-.globl LEDOFF
-LEDOFF: 
-    ldr r1, =PC13_BSRR 
-    ldr r3, =0x20000000
-    str r3, [r1]
-    bx lr
-
-
   .section .text.Reset_Handler
   .weak Reset_Handler
   .type Reset_Handler, %function
@@ -113,33 +75,33 @@ Reset_Handler:
   b LoopCopyDataInit
 
 CopyDataInit:
-  ldr r4, [r2, r3]    // load r4 with value found at memory addres found in r2 (_sidata) with offset found r3 (0) 
-  str r4, [r0, r3]    // store the value found in r4 to memory address found in r0(_sdata) with the offset r3 (0)
-  adds r3, r3, #4     // increment r3 by 4 (4)
+  ldr r4, [r2, r3]
+  str r4, [r0, r3]
+  adds r3, r3, #4
 
 LoopCopyDataInit:
-  adds r4, r0, r3     // add r0 + r3 (_sdata + 4) into r4
-  cmp r4, r1          // compare r4 (_sdata + 4) with r1(_edata) 
-  bcc CopyDataInit    // branch if carry is clear 
+  adds r4, r0, r3
+  cmp r4, r1
+  bcc CopyDataInit
   
 /* Zero fill the bss segment. */
-  ldr r2, =_sbss 
+  ldr r2, =_sbss
   ldr r4, =_ebss
-  movs r3, #0         // mov{s} rd, operand2 ... moves Operand2 into rd and updates condition flags  
+  movs r3, #0
   b LoopFillZerobss
 
 FillZerobss:
-  str  r3, [r2]       // value found in r3(0), is stored to address found in r2(_sbss)
-  adds r2, r2, #4     // value found in r2 is incremented by 4 
+  str  r3, [r2]
+  adds r2, r2, #4
 
 LoopFillZerobss:
-  cmp r2, r4    
-  bcc FillZerobss   // branch if carry is clear
+  cmp r2, r4
+  bcc FillZerobss
 
 /* Call the clock system intitialization function.*/
   //bl  SystemInit
 /* Call static constructors */
-  //bl __libc_init_array
+  // bl __libc_init_array
 /* Call the application's entry point.*/
   bl main
 

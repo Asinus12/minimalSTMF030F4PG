@@ -45,7 +45,6 @@ void LEDON(void);
 void LEDOFF(void);
 void LOOP(void);
 
-
 void blinker ( unsigned int n )
 {
     unsigned int i,j = 0;
@@ -67,7 +66,6 @@ unsigned int ra;
 int main ( void )
 {
 
-    // variables defined here go to stack and are not visible in dissasembly
 
     /*******************************************************/
     /**************** BLINKER WITH HSE *********************/
@@ -110,6 +108,9 @@ int main ( void )
 
 
 
+    // blink with HSE as clock source  
+    blinker(4);
+
     int j = 3; /* (int) ITERATIONS; */
     while(j--){
         LEDON();
@@ -117,11 +118,6 @@ int main ( void )
         LEDOFF();
         LOOP();
     }
-
-    // blink with HSE frequency 
-    blinker(4);
-
-    
 
 
 

@@ -11,17 +11,38 @@
 
 .thumb                      
 .thumb_func
+//.syntax unified // causes error in LOOP 
 
-.globl ITERATIONS   /* export to C */
-ITERATIONS: .word 2
+// .globl ITERATIONS   /* export to C */
+// ITERATIONS: .word 2
+
+
+
+.section	.isr_vector,"a",%progbits
+    .type	vector_table, %object
+    .size	vector_table, .-vector_table
+vector_table:
+	.word	_endstack
+	.word   reset
+
 
 
 .word reset
 .thumb_func
 reset:
+    ldr   r0, =_endstack   /* not really necessary, stack is propperly initialized */
+    mov   sp, r0           /* not really necessary */
     bl main
     b .
 
+
+
+.thumb_func
+.global SETFLASH
+SETFLASH:
+    ldr r2, =0x08000300
+    ldr r3, =0x10101010
+    str r3, [r2]
 
 .thumb_func               
 .globl PUT32                
@@ -60,19 +81,15 @@ LEDOFF:
     str r3, [r1]
     bx lr
 
+
 .thumb_func
 .globl LOOP
 LOOP:
    ldr r1,=0x200000
 label:
-   sub r1,#1
+   sub r1, #1
    bne label
    bx lr      
 
 
-.section	.isr_vector,"a",%progbits
-    .type	vector_table, %object
-    .size	vector_table, .-vector_table
-vector_table:
-	.word	_endstack
-	.word   reset
+
