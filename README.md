@@ -19,6 +19,15 @@ sudo apt install xxd
 - Video of building from zero 
     https://www.youtube.com/watch?v=7stymN3eYw0
     
+
+**Creating a static library foo.a**
+```
+arm-none-eabi-gcc -c foo.c
+arm-none-eabi-ar -rc libfoo.a foo.o
+arm-none-eabi-gcc -L. -lfoo main.c -o main
+
+```
+
 **Building**  
 ```
 mkdir build 
