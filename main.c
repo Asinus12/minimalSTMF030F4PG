@@ -1,4 +1,8 @@
 /* BB2022 */
+#include <stdio.h>
+
+
+
 #define PERIPH_BASE                 0x40000000 
 #define APBPERIPH_BASE              PERIPH_BASE
 #define AHBPERIPH_BASE              (PERIPH_BASE + 0x00020000)
@@ -60,13 +64,16 @@ void blinker ( unsigned int n )
 }
 
 
+int puts(const char *str){
+    return 0;
+}
 
 unsigned int ra; 
 
 int main ( void )
 {
 
-
+    printf("hello\n");
     /*******************************************************/
     /**************** BLINKER WITH HSE *********************/
     /*******************************************************/
@@ -109,15 +116,15 @@ int main ( void )
 
 
     // blink with HSE as clock source  
-    blinker(4);
+    blinker(3);
 
-    int j = 3; /* (int) ITERATIONS; */
-    while(j--){
-        LEDON();
-        LOOP();
-        LEDOFF();
-        LOOP();
-    }
+    // int j = 3; /* (int) ITERATIONS; */
+    // while(j--){
+    //     LEDON();
+    //     LOOP();
+    //     LEDOFF();
+    //     LOOP();
+    // }
 
 
 

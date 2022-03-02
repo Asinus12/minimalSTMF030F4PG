@@ -12,13 +12,20 @@ git clone https://github.com/stlink-org/stlink.git
 sudo apt install xxd 
 ```
 **Referemces** 
+
+- arm-none-eabi-as  
+    https://manned.org/arm-none-eabi-as/a7ae4940
+
+- arm-none-eabi-ld 
+    https://gcc.gnu.org/onlinedocs/gcc/Link-Options.html
+
 - ARM and Thumb instrction set 
     https://developer.arm.com/documentation/dui0489/i/arm-and-thumb-instructions/ldr--register-offset-
 - Assembler 
     https://docs.huihoo.com/redhat/rhel-4-docs/rhel-as-en-4/index.html  
 - Video of building from zero 
     https://www.youtube.com/watch?v=7stymN3eYw0
-    
+
 **Building**  
 ```
 mkdir build 

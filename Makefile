@@ -10,7 +10,7 @@ BUILD_DIR =./build
 ######################################################################
 
 SRCS   = main.c
-SRCS += startup.s
+SRCS += startup3.s
 
 ######################################################################
 #                         SETUP TOOLS                                #
@@ -26,17 +26,24 @@ OBJCOPY = $(TOOLS_DIR)/arm-none-eabi-objcopy
 
 
 ## Assembler options
-AFLAGS = --warn --fatal-warnings -mcpu=cortex-m0
+AFLAGS = --warn  # Dont suppres warning messages or treat them as errors 
+AFLAGS += --fatal-warnings	# treat warnings as errors 
+AFLAGS +=  -mcpu=cortex-m0	# assemble for cortexm0
 
 ## Compiler options 
-CFLAGS = -Wall -O2 -ffreestanding
-CFLAGS += -mcpu=cortex-m0 -mthumb
+CFLAGS = -Wall 
+CFLAGS += -O2 
+#CFLAGS += -ffreestanding
+CFLAGS += -mcpu=cortex-m0 
+CFLAGS += -mthumb
+#CFLAGS += -nostdlib
+CFLAGS += -lc
 
 ## Linker options
-LFLAGS  = -nostdlib -nostartfiles 
-
-
-
+#LFLAGS  = -nostartfiles # Do not use standard system startup files when linking, standard system libraries are used unless -nostdlib or -nodefaultlibs is used 
+#LFLAGS += -nolibc # Do not use the C library or system libraries tightly coupled with it when linking
+#LFLAGS += -nostdlib # Do not use the standard system startup files or libraries when linking. 
+#LFLAGS += -nodefaultlibs
 
 ######################################################################
 #                         SETUP TARGETS                              #
@@ -48,9 +55,9 @@ LFLAGS  = -nostdlib -nostartfiles
 $(PROJ_NAME): $(PROJ_NAME).elf
 
 $(PROJ_NAME).elf: $(SRCS)
-	$(AS) $(AFLAGS) startup.s -o $(BUILD_DIR)/startup.o
+	$(AS) $(AFLAGS) startup3.s -o $(BUILD_DIR)/startup.o
 	$(CC) $(CFLAGS) -c main.c -o $(BUILD_DIR)/main.o
-	$(LD) $(LFLAGS) -T flash.ld $(BUILD_DIR)/startup.o $(BUILD_DIR)/main.o -o $(BUILD_DIR)/$(PROJ_NAME).elf
+	$(LD) $(LFLAGS) -T flash3.ld $(BUILD_DIR)/startup.o $(BUILD_DIR)/main.o -o $(BUILD_DIR)/$(PROJ_NAME).elf
 	$(OBJDUMP) -D $(BUILD_DIR)/$(PROJ_NAME).elf > $(BUILD_DIR)/$(PROJ_NAME).list
 	$(OBJCOPY) -O binary $(BUILD_DIR)/$(PROJ_NAME).elf $(BUILD_DIR)/$(PROJ_NAME).bin
 

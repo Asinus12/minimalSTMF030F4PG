@@ -194,9 +194,9 @@ SECTIONS
   /* Remove information from the compiler libraries */
   /DISCARD/ :
   {
-    /* libc.a ( * ) 
+    libc.a ( * ) 
     libm.a ( * )
-    libgcc.a ( * ) */
+    libgcc.a ( * )
   }
 
   .ARM.attributes 0 : { *(.ARM.attributes) }

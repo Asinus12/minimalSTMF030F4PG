@@ -80,23 +80,6 @@ DUMMY:
     bx lr
 
 
-.thumb_func
-.globl LEDON
-LEDON:
-    ldr r1, =PC13_BSRR 
-    ldr r3, =0x2000
-    str r3, [r1]
-    bx lr
-
-
-.thumb_func
-.globl LEDOFF
-LEDOFF: 
-    ldr r1, =PC13_BSRR 
-    ldr r3, =0x20000000
-    str r3, [r1]
-    bx lr
-
 
   .section .text.Reset_Handler
   .weak Reset_Handler
@@ -139,7 +122,7 @@ LoopFillZerobss:
 /* Call the clock system intitialization function.*/
   //bl  SystemInit
 /* Call static constructors */
-  //bl __libc_init_array
+  bl __libc_init_array
 /* Call the application's entry point.*/
   bl main
 

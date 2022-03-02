@@ -8,14 +8,14 @@
 /* .thumb_func ... this directive specifies that the following symbol is the name of a Thumb encoded function */
 
 
-
-.thumb                      
-.thumb_func
+// use thumb IS
+.thumb             
+// assembler flags -mcpu=cortex-m0 in makefile         
+.cpu cortex-m0
 //.syntax unified // causes error in LOOP 
 
 // .globl ITERATIONS   /* export to C */
 // ITERATIONS: .word 2
-
 
 
 .section	.isr_vector,"a",%progbits
@@ -32,6 +32,7 @@ vector_table:
 reset:
     ldr   r0, =_endstack   /* not really necessary, stack is propperly initialized */
     mov   sp, r0           /* not really necessary */
+    bl __libc_init_array
     bl main
     b .
 
